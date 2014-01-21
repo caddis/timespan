@@ -1,9 +1,9 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (! defined('BASEPATH')) exit('No direct script access allowed');
 
 $plugin_info = array (
 	'pi_name' => 'Timespan',
-	'pi_version' => '1.1.0',
-	'pi_author' => 'Michael Leigeber',
+	'pi_version' => '1.2.0',
+	'pi_author' => 'Caddis',
 	'pi_author_url' => 'http://www.caddis.co',
 	'pi_description' => 'Returns the relative time between a provided time and the current time.',
 	'pi_usage' => Timespan::usage()
@@ -15,21 +15,21 @@ class Timespan {
 
 	public function __construct()
 	{
-		$this->EE =& get_instance();
-
-		$origin_date = $this->EE->TMPL->fetch_param('date');
-		$show_labels = $this->EE->TMPL->fetch_param('show_labels');
-		$show_empty = $this->EE->TMPL->fetch_param('show_empty', 'no');
+		$origin_date = ee()->TMPL->fetch_param('date');
+		$show_labels = ee()->TMPL->fetch_param('show_labels');
+		$show_empty = ee()->TMPL->fetch_param('show_empty', 'no');
 
 		if ($origin_date)
 		{
 			// Get tag pair content
-			$result = $this->EE->TMPL->tagdata;
+
+			$result = ee()->TMPL->tagdata;
 
 			$current_date = time();
 			$rem = $current_date - $origin_date;
 
-			// Determine if the date is in the past of the future
+			// Determine if the date is in the past or the future
+
 			$past_future = ($rem > 0) ? 'past' : 'future';
 			$result = str_replace('{timespan:past_future}', $past_future, $result);
 
@@ -79,17 +79,11 @@ class Timespan {
 ?>
 Parameters:
 
-date = '{entry_date}'		// Unix timestamp (default EE date format)
-show_labels = 'false'			// Show the date labels (years, minutes, etc)
-show_empty = 'true'			// Hide values that equal 0
+date = '{entry_date}' // Unix timestamp (default EE date format)
+show_labels = 'false' // Show the date labels (years, minutes, etc)
+show_empty = 'true'   // Hide values that equal 0
 
 Usage:
-
-{exp:ellapsed date="{entry_date}"}
-{if {ellapsed:days} < 7}
-This entry is less than a week old!
-{/if}
-{/exp:ellapsed}
 
 {exp:timespan date="{entry_date}" show_labels="true" show_empty="no"}
 The time difference is {timespan:years} {timespan:months} {timespan:days} {timespan:hours}{if '{timespan:minutes}' != ''} and {timespan:minutes}{/if}.
