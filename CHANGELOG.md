@@ -1,3 +1,9 @@
+# 1.2.1
+
+2014-10-11
+
+- Add missing scope to usage function to eliminate warning in PHP 5.6.x
+
 # 1.2.0
 
 2014-01-21

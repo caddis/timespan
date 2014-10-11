@@ -1,4 +1,4 @@
-# Timespan 1.2.0
+# Timespan 1.2.1
 
 Returns the relative time between a provided time and the current time.
 
